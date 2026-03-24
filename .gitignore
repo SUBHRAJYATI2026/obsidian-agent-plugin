@@ -1,0 +1,17 @@
+# Ignore everything
+*
+
+# Un-ignore directories
+!src/
+!src/**
+
+# Un-ignore specific files
+!package.json
+!package-lock.json
+!esbuild.config.mjs
+!tsconfig.json
+!manifest.json
+!versions.json
+!.gitignore
+!.vscode/
+!.vscode/settings.json

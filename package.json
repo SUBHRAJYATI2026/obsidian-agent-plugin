@@ -1,0 +1,38 @@
+{
+	"name": "obsidian-sample-plugin",
+	"version": "1.0.0",
+	"description": "This is a sample plugin for Obsidian (https://obsidian.md)",
+	"main": "main.js",
+	"type": "module",
+	"scripts": {
+		"dev": "concurrently \"node esbuild.config.mjs\" \"npx @tailwindcss/cli -i ./src/styles.css -o ./styles.css --watch\"",
+		"build": "node esbuild.config.mjs production && npx @tailwindcss/cli -i ./src/styles.css -o ./styles.css --minify",
+		"version": "node version-bump.mjs && git add manifest.json versions.json",
+		"lint": "eslint ."
+	},
+	"keywords": [],
+	"license": "0-BSD",
+	"devDependencies": {
+		"@eslint/js": "9.30.1",
+		"@types/node": "^16.11.6",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"esbuild": "0.25.5",
+		"eslint-plugin-obsidianmd": "0.1.9",
+		"globals": "14.0.0",
+		"jiti": "2.6.1",
+		"tslib": "2.4.0",
+		"typescript": "^5.8.3",
+		"typescript-eslint": "8.35.1"
+	},
+	"dependencies": {
+		"@hugeicons/core-free-icons": "^4.0.0",
+		"@hugeicons/react": "^1.1.6",
+		"@tailwindcss/cli": "^4.2.2",
+		"concurrently": "^9.2.1",
+		"obsidian": "latest",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
+		"tailwindcss": "^4.2.2"
+	}
+}

@@ -1,0 +1,10 @@
+{
+    "id": "obsidian-ai",
+    "name": "Obsidian AI",
+    "version": "1.0.0",
+    "minAppVersion": "0.15.0",
+    "description": "This is an AI agent which can manage the whole obsidian vault for the user. It can create, edit, delete, and organize notes based on the user's instructions. It can also generate new content, summarize existing notes, and provide insights based on the data in the vault.",
+    "author": "SUBHRAJYATI MANDAL",
+    "authorUrl": "https://github.com/Subhrajyati2026",
+    "isDesktopOnly": true
+}
