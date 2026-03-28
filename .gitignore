@@ -8,6 +8,7 @@
 !backend/**
 backend/.venv/
 backend/__pycache__/
+backend/src/__pycache__/
 
 # Un-ignore specific files
 !package.json
