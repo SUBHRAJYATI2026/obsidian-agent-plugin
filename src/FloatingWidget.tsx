@@ -6,11 +6,18 @@ import {
 import React from "react";
 import { useState } from "react";
 import type { IconSvgElement } from "@hugeicons/react";
+import { requestUrl } from "obsidian";
+
+interface GenerateResponse {
+  response: string;
+}
 
 export default function FloatingWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [prompt, setPrompt] = useState("");
+  const [response, setResponse] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const currentFabIcon: IconSvgElement = (
     isOpen && !isClosing ? Cancel02FreeIcons : ChatBotFreeIcons
@@ -32,6 +39,38 @@ export default function FloatingWidget() {
     }
   };
 
+  const handleSend = async () => {
+    if (!prompt.trim()) return;
+
+    setIsLoading(true);
+    setResponse("");
+
+    try {
+      const res = await requestUrl({
+        url: "http://127.0.0.1:8000/generate",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prompt }),
+      });
+      const data = res.json as GenerateResponse;
+      setResponse(data.response);
+    } catch (err) {
+      console.error(err);
+      setResponse(
+        `Error: Could not connect to backend. ${(err as Error).message}`,
+      );
+    } finally {
+      setIsLoading(false);
+      setPrompt("");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") void handleSend();
+  };
+
   return (
     <div className="fixed bottom-7 right-7 z-50 flex flex-col items-end gap-3">
       {/* Popup */}
@@ -51,9 +90,15 @@ export default function FloatingWidget() {
 
           {/* Messages area */}
           <div className="flex-1 overflow-y-auto p-4">
-            <p className="text-sm text-neutral-400">
-              How can I help you today?
-            </p>
+            {response ? (
+              <p className="text-sm text-white!">{response}</p>
+            ) : isLoading ? (
+              <p className="text-sm text-neutral-400!">Thinking...</p>
+            ) : (
+              <p className="text-sm text-neutral-400!">
+                How can I help you today?
+              </p>
+            )}
           </div>
 
           {/* Input */}
@@ -63,14 +108,17 @@ export default function FloatingWidget() {
                 type="text"
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={handleKeyDown}
                 placeholder="Ask anything..."
+                disabled={isLoading}
                 className="flex-1 bg-transparent! text-sm text-white placeholder-neutral-500 outline-none! border-none!"
               />
               <button
-                onClick={() => setPrompt("")}
+                onClick={() => void handleSend()}
+                disabled={isLoading || !prompt.trim()}
                 className="rounded-[14px]! bg-[#302f5e]! px-3 py-1 text-xs font-medium text-white hover:bg-[#2b2952]! transition-colors"
               >
-                Send
+                {isLoading ? "..." : "Send"}
               </button>
             </div>
           </div>

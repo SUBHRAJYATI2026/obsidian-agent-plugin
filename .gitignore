@@ -4,6 +4,10 @@
 # Un-ignore directories
 !src/
 !src/**
+!backend/
+!backend/**
+backend/.venv/
+backend/__pycache__/
 
 # Un-ignore specific files
 !package.json
