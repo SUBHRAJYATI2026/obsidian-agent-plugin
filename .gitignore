@@ -9,6 +9,7 @@
 backend/.venv/
 backend/__pycache__/
 backend/src/__pycache__/
+__pycache__/
 
 # Un-ignore specific files
 !package.json
@@ -20,3 +21,4 @@ backend/src/__pycache__/
 !.gitignore
 !.vscode/
 !.vscode/settings.json
+backend/.env
