@@ -7,8 +7,10 @@ import React from "react";
 import { useState } from "react";
 import type { IconSvgElement } from "@hugeicons/react";
 import { requestUrl } from "obsidian";
+import Markdown from "react-markdown";
 
 interface GenerateResponse {
+  prompt: string;
   response: string;
 }
 
@@ -44,15 +46,12 @@ export default function FloatingWidget() {
 
     setIsLoading(true);
     setResponse("");
+    setPrompt("");
 
     try {
       const res = await requestUrl({
-        url: "http://127.0.0.1:8000/generate",
+        url: `http://127.0.0.1:8000/generate?request=${encodeURIComponent(prompt)}`,
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prompt }),
       });
       const data = res.json as GenerateResponse;
       setResponse(data.response);
@@ -63,7 +62,6 @@ export default function FloatingWidget() {
       );
     } finally {
       setIsLoading(false);
-      setPrompt("");
     }
   };
 
@@ -89,9 +87,11 @@ export default function FloatingWidget() {
           </div>
 
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto p-4 overflow-x-hidden">
             {response ? (
-              <p className="text-sm text-white!">{response}</p>
+              <div className="text-sm text-white!">
+                <Markdown>{response}</Markdown>
+              </div>
             ) : isLoading ? (
               <p className="text-sm text-neutral-400!">Thinking...</p>
             ) : (
