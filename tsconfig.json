@@ -25,10 +25,12 @@
 			"ES6",
 			"ES7"
 		],
-		"jsx": "react"
+		"jsx": "react-jsx",
+		"types": ["node"]
 	},
 	"include": [
 		"src/**/*.ts",
-		"src/**/*.tsx"
+		"src/**/*.tsx",
+		"eslint.config.mts"
 	]
 }
