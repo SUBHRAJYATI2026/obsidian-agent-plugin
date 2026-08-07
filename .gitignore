@@ -19,7 +19,5 @@ __pycache__/
 !manifest.json
 !versions.json
 !.gitignore
-!.vscode/
-!.vscode/settings.json
 backend/.env
 !LICENSE
